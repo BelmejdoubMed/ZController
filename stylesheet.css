@@ -1,0 +1,1696 @@
+/* ==========================================================================
+   ZController — Top Bar Pill (next to Date Bar)
+   ========================================================================== */
+
+.zcontroller-panel-root {
+    -natural-hpadding: 4px;
+    -minimum-hpadding: 2px;
+    padding: 0 2px;
+}
+
+.zcontroller-panel-root:hover,
+.zcontroller-panel-root:active,
+.zcontroller-panel-root:checked {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.zcontroller-bottom-host {
+    padding: 0;
+    margin: 0;
+}
+
+.zcontroller-bottom-placement {
+    color: #eeeeec;
+}
+
+.zcontroller-bottom-placement .zcontroller-panel-box {
+    margin: 0;
+    padding: 2px 4px;
+}
+
+.zcontroller-bottom-placement .zcontroller-panel-box.zcontroller-has-timeline {
+    padding: 2px 4px 1px 4px;
+}
+
+.zcontroller-bottom-placement .zcontroller-wave-divider {
+    margin: 0 1px 0 3px;
+}
+
+.zcontroller-bottom-placement .zcontroller-wave-canvas {
+    margin: 0 2px 0 4px;
+}
+
+.zcontroller-panel-box {
+    spacing: 0;
+    padding: 0 3px;
+    margin: 2px 0;
+    border-radius: 99px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid transparent;
+    transition-duration: 140ms;
+}
+
+.zcontroller-panel-box.zcontroller-has-timeline {
+    border-radius: 13px;
+    margin: 1px 0;
+    padding: 1px 3px 0 3px;
+}
+
+.zcontroller-panel-controls-row {
+    spacing: 2px;
+}
+
+.zcontroller-panel-btn {
+    padding: 0 7px;
+    margin: 1px 0;
+    border-radius: 99px;
+    transition-duration: 120ms;
+}
+
+.zcontroller-has-timeline .zcontroller-panel-btn {
+    margin: 0;
+}
+
+.zcontroller-panel-btn:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+.zcontroller-panel-btn:active {
+    background-color: rgba(255, 255, 255, 0.24);
+}
+
+.zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-panel-btn.zcontroller-btn-active.zcontroller-has-audio {
+    color: #ffffff;
+}
+
+.zcontroller-wave-divider {
+    width: 1px;
+    height: 14px;
+    margin: 0 3px 0 1px;
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+.zcontroller-has-timeline .zcontroller-wave-divider {
+    height: 12px;
+}
+
+.zcontroller-wave-canvas {
+    height: 22px;
+    margin: 0 4px 0 2px;
+    border-radius: 99px;
+}
+
+.zcontroller-has-timeline .zcontroller-wave-canvas {
+    height: 16px;
+}
+
+.zcontroller-bottom-placement .zcontroller-has-timeline .zcontroller-wave-canvas {
+    height: 19px;
+}
+
+.zcontroller-bar-timeline {
+    height: 6px;
+    margin: 0;
+}
+
+.zcontroller-bottom-placement .zcontroller-bar-timeline {
+    height: 7px;
+    margin: 1px 0 0 0;
+}
+
+.zcontroller-wave-canvas:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.zcontroller-panel-icon {
+    icon-size: 14px;
+}
+
+.zcontroller-has-timeline .zcontroller-panel-icon {
+    icon-size: 13px;
+}
+
+.zcontroller-bottom-placement .zcontroller-has-timeline .zcontroller-panel-icon {
+    icon-size: 14px;
+}
+
+/* Floating Hover Tooltip */
+.zcontroller-tooltip {
+    background-color: rgba(24, 24, 28, 0.94);
+    color: #f5f5f5;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 0.85em;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   Popup Menu Base Card
+   ========================================================================== */
+
+.zcontroller-popup-menu {
+    -arrow-background-color: transparent;
+    -arrow-border-color: transparent;
+    -arrow-border-width: 0px;
+    -arrow-border-radius: 19px;
+    -arrow-rise: 6px;
+    -arrow-base: 0px;
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu .popup-menu-content {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 19px;
+    box-shadow: none;
+}
+
+.zcontroller-popup-item {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 18px;
+    box-shadow: none;
+}
+
+.zcontroller-card {
+    width: 356px;
+    padding: 12px;
+    spacing: 10px;
+    border-radius: 18px;
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   Hero Card (Now Playing + Transport + Active Volume)
+   ========================================================================== */
+
+.zcontroller-hero-card {
+    padding: 12px;
+    spacing: 9px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+/* Header & Cover Art */
+.zcontroller-header {
+    spacing: 11px;
+}
+
+.zcontroller-art-btn {
+    width: 54px;
+    height: 54px;
+    border-radius: 10px;
+    background-color: rgba(128, 128, 128, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3px;
+    transition-duration: 120ms;
+}
+
+.zcontroller-art-btn:hover {
+    background-color: rgba(128, 128, 128, 0.28);
+}
+
+.zcontroller-art-icon {
+    border-radius: 7px;
+}
+
+.zcontroller-meta-box {
+    spacing: 2px;
+}
+
+.zcontroller-title {
+    font-size: 1.02em;
+    font-weight: 700;
+}
+
+.zcontroller-subtitle {
+    font-size: 0.86em;
+    opacity: 0.78;
+}
+
+.zcontroller-source-badge {
+    font-size: 0.72em;
+    font-weight: 600;
+    opacity: 0.86;
+    margin-top: 3px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background-color: rgba(128, 128, 128, 0.18);
+}
+
+.zcontroller-icon-btn {
+    padding: 6px;
+    border-radius: 99px;
+    transition-duration: 120ms;
+}
+
+.zcontroller-icon-btn:hover {
+    background-color: rgba(128, 128, 128, 0.22);
+}
+
+.zcontroller-icon-btn:active {
+    background-color: rgba(128, 128, 128, 0.34);
+}
+
+/* Seek / Progress Row */
+.zcontroller-seek-row {
+    spacing: 8px;
+    padding: 1px 0;
+}
+
+.zcontroller-time-label {
+    font-size: 0.75em;
+    opacity: 0.72;
+    min-width: 32px;
+    text-align: center;
+}
+
+/* Transport Controls Row */
+.zcontroller-controls-row {
+    spacing: 12px;
+    padding: 2px 0;
+}
+
+.zcontroller-ctrl-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 99px;
+    background-color: rgba(128, 128, 128, 0.16);
+    transition-duration: 120ms;
+}
+
+.zcontroller-ctrl-btn:hover {
+    background-color: rgba(128, 128, 128, 0.28);
+}
+
+.zcontroller-ctrl-btn:active {
+    background-color: rgba(128, 128, 128, 0.4);
+}
+
+.zcontroller-ctrl-primary {
+    width: 42px;
+    height: 42px;
+    color: #ffffff;
+}
+
+.zcontroller-ctrl-subtle {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+/* Volume Rows */
+.zcontroller-volume-row {
+    spacing: 8px;
+}
+
+.zcontroller-slider {
+    min-width: 130px;
+}
+
+.zcontroller-pct-label {
+    font-size: 0.78em;
+    font-weight: 600;
+    opacity: 0.8;
+    min-width: 38px;
+    text-align: right;
+}
+
+/* ==========================================================================
+   Collapsible Accordion Sections Stack
+   ========================================================================== */
+
+.zcontroller-sections-stack {
+    spacing: 6px;
+}
+
+.zcontroller-section-card {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition-duration: 140ms;
+}
+
+.zcontroller-section-card.zcontroller-section-expanded {
+    background-color: rgba(255, 255, 255, 0.065);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.zcontroller-accordion-header {
+    padding: 8px 10px;
+    border-radius: 10px;
+    transition-duration: 120ms;
+}
+
+.zcontroller-section-expanded .zcontroller-accordion-header {
+    border-radius: 10px 10px 0 0;
+}
+
+.zcontroller-accordion-header:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.zcontroller-accordion-header-row {
+    spacing: 9px;
+}
+
+.zcontroller-section-icon-box {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background-color: rgba(128, 128, 128, 0.18);
+}
+
+.zcontroller-section-icon {
+    opacity: 0.92;
+}
+
+.zcontroller-accordion-title {
+    font-size: 0.86em;
+    font-weight: 600;
+    text-align: left;
+}
+
+.zcontroller-accordion-summary {
+    font-size: 0.76em;
+    font-weight: 600;
+    opacity: 0.68;
+    max-width: 124px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background-color: rgba(128, 128, 128, 0.14);
+}
+
+.zcontroller-accordion-chevron {
+    opacity: 0.65;
+}
+
+.zcontroller-accordion-body {
+    padding: 9px 10px 10px 10px;
+    spacing: 8px;
+    border-top-width: 1px;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-color: rgba(255, 255, 255, 0.09);
+}
+
+.zcontroller-section-toolbar {
+    spacing: 6px;
+}
+
+/* Segmented Control (Position & Theme) */
+.zcontroller-segmented {
+    spacing: 3px;
+    padding: 3px;
+    border-radius: 9px;
+    background-color: rgba(0, 0, 0, 0.22);
+}
+
+.zcontroller-segment-btn {
+    font-size: 0.75em;
+    font-weight: 600;
+    padding: 5px 6px;
+    border-radius: 7px;
+    background-color: transparent;
+    transition-duration: 120ms;
+}
+
+.zcontroller-segment-btn:hover {
+    background-color: rgba(128, 128, 128, 0.22);
+}
+
+.zcontroller-segment-btn.zcontroller-chip-active {
+    color: #ffffff;
+}
+
+.zcontroller-helper-hint {
+    font-size: 0.75em;
+    opacity: 0.66;
+    padding: 0 2px;
+}
+
+.zcontroller-output-name {
+    font-size: 0.82em;
+    font-weight: 600;
+    opacity: 0.85;
+    padding: 0 2px;
+}
+
+.zcontroller-pill-btn {
+    font-size: 0.76em;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 99px;
+    background-color: rgba(128, 128, 128, 0.18);
+    transition-duration: 120ms;
+}
+
+.zcontroller-pill-btn:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+.zcontroller-pill-btn.zcontroller-pill-active {
+    color: #ffffff;
+}
+
+/* Sources List */
+.zcontroller-sources-scroll {
+    max-height: 156px;
+}
+
+.zcontroller-sources-list {
+    spacing: 6px;
+}
+
+.zcontroller-empty-label {
+    font-size: 0.82em;
+    opacity: 0.65;
+    padding: 4px 2px;
+}
+
+.zcontroller-source-row {
+    padding: 7px 9px;
+    border-radius: 8px;
+    background-color: rgba(128, 128, 128, 0.11);
+    border: 1px solid transparent;
+    spacing: 4px;
+}
+
+.zcontroller-source-select-btn {
+    text-align: left;
+    padding: 0 4px 0 0;
+}
+
+.zcontroller-source-name {
+    font-size: 0.86em;
+    font-weight: 600;
+}
+
+.zcontroller-source-state {
+    font-size: 0.75em;
+    opacity: 0.7;
+}
+
+.zcontroller-row-action-btn {
+    padding: 6px;
+    border-radius: 99px;
+    background-color: rgba(128, 128, 128, 0.16);
+}
+
+.zcontroller-row-action-btn:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+.zcontroller-mini-slider {
+    margin-top: 2px;
+}
+
+/* Local Music Track List */
+.zcontroller-tracks-scroll {
+    max-height: 168px;
+}
+
+.zcontroller-tracks-list {
+    spacing: 4px;
+}
+
+.zcontroller-track-row {
+    padding: 6px 8px;
+    border-radius: 8px;
+    background-color: rgba(128, 128, 128, 0.1);
+    border: 1px solid transparent;
+    transition-duration: 110ms;
+}
+
+.zcontroller-track-row:hover {
+    background-color: rgba(128, 128, 128, 0.22);
+}
+
+.zcontroller-track-row-box {
+    spacing: 8px;
+}
+
+.zcontroller-track-index {
+    font-size: 0.74em;
+    font-weight: 600;
+    opacity: 0.62;
+    min-width: 18px;
+    text-align: center;
+}
+
+.zcontroller-track-play-icon {
+    min-width: 18px;
+}
+
+.zcontroller-track-title {
+    font-size: 0.83em;
+    font-weight: 600;
+    text-align: left;
+}
+
+/* ==========================================================================
+   Sound Waves & Theme Controls
+   ========================================================================== */
+
+.zcontroller-custom-row {
+    spacing: 8px;
+}
+
+.zcontroller-custom-label {
+    font-size: 0.8em;
+    font-weight: 600;
+    opacity: 0.82;
+    min-width: 66px;
+}
+
+.zcontroller-chip-group {
+    spacing: 4px;
+}
+
+.zcontroller-chip-btn {
+    font-size: 0.76em;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 7px;
+    background-color: rgba(128, 128, 128, 0.16);
+    transition-duration: 120ms;
+}
+
+.zcontroller-chip-btn:hover {
+    background-color: rgba(128, 128, 128, 0.28);
+}
+
+.zcontroller-chip-compact {
+    padding: 4px 8px;
+}
+
+.zcontroller-chip-btn.zcontroller-chip-active {
+    color: #ffffff;
+}
+
+.zcontroller-swatch-row {
+    spacing: 6px;
+}
+
+.zcontroller-swatch-btn {
+    width: 19px;
+    height: 19px;
+    border-radius: 99px;
+    border: 2px solid rgba(255, 255, 255, 0.22);
+    transition-duration: 120ms;
+}
+
+.zcontroller-swatch-btn:hover {
+    border: 2px solid rgba(255, 255, 255, 0.78);
+}
+
+.zcontroller-swatch-btn.zcontroller-swatch-active {
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.34);
+}
+
+/* ==========================================================================
+   ZController Themes — All 5 Powered by Live Frosted Blur + Double-Rim Glass
+   (Dark / Glass / Transparent / Light / OLED)
+   ========================================================================== */
+
+/* 1. Ubuntu Dark (Frosted Charcoal Vibrancy) */
+.zcontroller-theme-dark .zcontroller-panel-box {
+    background-color: rgba(30, 30, 36, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark {
+    color: #f5f5f7;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .popup-menu-content {
+    border: 1px solid rgba(0, 0, 0, 0.52);
+    color: #f5f5f7;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-card {
+    background-color: rgba(28, 28, 34, 0.76);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-title,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-accordion-title,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-source-name,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-output-name {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-subtitle,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-custom-label,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-pct-label,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-time-label,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-helper-hint,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-source-state,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-accordion-chevron {
+    color: rgba(242, 242, 248, 0.86);
+    opacity: 0.9;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-hero-card,
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-section-card {
+    background-color: rgba(255, 255, 255, 0.065);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-section-card.zcontroller-section-expanded {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .zcontroller-segmented {
+    background-color: rgba(0, 0, 0, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-dark .slider {
+    -barlevel-background-color: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+}
+
+/* 2. Midnight Glass (Frosted Sapphire Vibrancy) */
+.zcontroller-theme-glass .zcontroller-panel-box {
+    background-color: rgba(18, 28, 52, 0.58);
+    border: 1px solid rgba(165, 205, 255, 0.26);
+    box-shadow: none;
+    color: #eef5ff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass {
+    color: #eef5ff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .popup-menu-content {
+    border: 1px solid rgba(2, 6, 18, 0.54);
+    color: #eef5ff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-card {
+    background-color: rgba(14, 22, 42, 0.58);
+    border: 1px solid rgba(165, 205, 255, 0.26);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-title,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-accordion-title,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-source-name,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-output-name {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(2, 8, 24, 0.48);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-subtitle,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-custom-label,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-pct-label,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-time-label,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-helper-hint,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-source-state,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-accordion-chevron {
+    color: rgba(226, 238, 255, 0.9);
+    opacity: 0.92;
+    text-shadow: 0 1px 2px rgba(2, 8, 24, 0.4);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-hero-card,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-section-card,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-source-row {
+    background-color: rgba(165, 205, 255, 0.09);
+    border: 1px solid rgba(165, 205, 255, 0.16);
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-section-card.zcontroller-section-expanded {
+    background-color: rgba(165, 205, 255, 0.14);
+    border: 1px solid rgba(165, 205, 255, 0.28);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-accordion-header:hover {
+    background-color: rgba(165, 205, 255, 0.12);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-accordion-body {
+    border-color: rgba(165, 205, 255, 0.18);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-section-icon-box,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-source-badge {
+    background-color: rgba(165, 205, 255, 0.16);
+    color: #eef5ff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .zcontroller-segmented {
+    background-color: rgba(4, 10, 24, 0.42);
+    border: 1px solid rgba(165, 205, 255, 0.15);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-glass .slider {
+    -barlevel-background-color: rgba(180, 215, 255, 0.26);
+    color: #ffffff;
+}
+
+/* 3. Light (macOS Daylight Frosted Glass) */
+.zcontroller-theme-light .zcontroller-panel-box {
+    background-color: rgba(246, 247, 252, 0.82);
+    border: 1px solid rgba(20, 22, 30, 0.16);
+    box-shadow: none;
+    color: #181a22;
+}
+
+.zcontroller-theme-light .zcontroller-panel-btn {
+    color: #181a22;
+}
+
+.zcontroller-theme-light .zcontroller-panel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.09);
+}
+
+.zcontroller-theme-light .zcontroller-panel-btn:active {
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
+.zcontroller-theme-light .zcontroller-wave-divider {
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
+.zcontroller-theme-light .zcontroller-wave-canvas:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light {
+    color: #181a22;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .popup-menu-content {
+    border: 1px solid rgba(15, 18, 28, 0.18);
+    color: #181a22;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-card {
+    background-color: rgba(246, 247, 252, 0.74);
+    border: 1px solid rgba(255, 255, 255, 0.84);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-title,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-accordion-title,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-source-name,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-output-name {
+    color: #14161e;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-subtitle,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-custom-label,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-pct-label,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-time-label,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-helper-hint,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-source-state,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-accordion-chevron {
+    color: rgba(24, 26, 36, 0.82);
+    opacity: 0.9;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-hero-card,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-section-card {
+    background-color: rgba(255, 255, 255, 0.64);
+    border: 1px solid rgba(20, 22, 30, 0.11);
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-section-card.zcontroller-section-expanded {
+    background-color: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(20, 22, 30, 0.18);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-accordion-header:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-accordion-body {
+    border-color: rgba(20, 22, 30, 0.1);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-section-icon-box,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-source-badge {
+    background-color: rgba(20, 22, 30, 0.08);
+    color: #181a22;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-segmented {
+    background-color: rgba(20, 22, 30, 0.09);
+    border: 1px solid rgba(20, 22, 30, 0.08);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-art-btn {
+    background-color: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(20, 22, 30, 0.12);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-source-row {
+    background-color: rgba(20, 22, 30, 0.055);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-swatch-btn {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .zcontroller-swatch-btn.zcontroller-swatch-active {
+    border: 2px solid #14161e;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.22);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-light .slider {
+    -barlevel-background-color: rgba(24, 26, 36, 0.2);
+    color: #ffffff;
+}
+
+/* 4. OLED Pitch Black (Smoked Obsidian Vibrancy) */
+.zcontroller-theme-oled .zcontroller-panel-box {
+    background-color: rgba(5, 5, 8, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled {
+    color: #ffffff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .popup-menu-content {
+    border: 1px solid rgba(0, 0, 0, 0.78);
+    color: #ffffff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-card {
+    background-color: rgba(5, 5, 9, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-title,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-accordion-title,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-source-name,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-output-name {
+    color: #ffffff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-subtitle,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-custom-label,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-pct-label,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-time-label,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-helper-hint,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-source-state,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-accordion-chevron {
+    color: rgba(245, 245, 250, 0.84);
+    opacity: 0.9;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-hero-card,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-section-card,
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-source-row {
+    background-color: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-section-card.zcontroller-section-expanded {
+    background-color: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .zcontroller-segmented {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-oled .slider {
+    -barlevel-background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+/* 5. Transparent (MacBook Frosted Glass Cards with Live Backdrop Blur) */
+.zcontroller-theme-transparent .zcontroller-panel-box {
+    background-color: rgba(20, 22, 30, 0.52);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: none;
+    color: #ffffff;
+}
+
+.zcontroller-theme-transparent .zcontroller-panel-btn {
+    color: #ffffff;
+}
+
+.zcontroller-theme-transparent .zcontroller-panel-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.zcontroller-theme-transparent .zcontroller-panel-btn:active {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.zcontroller-theme-transparent .zcontroller-wave-divider {
+    background-color: rgba(255, 255, 255, 0.28);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent {
+    color: #ffffff;
+    -arrow-border-radius: 19px;
+}
+
+/* Clean outer contrast rim with ZERO muddy St box-shadow bleeding through glass */
+.zcontroller-popup-menu.zcontroller-theme-transparent .popup-menu-content {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.44);
+    border-radius: 19px;
+    box-shadow: none;
+    padding: 0;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-popup-item {
+    border-radius: 18px;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-card {
+    background-color: rgba(18, 20, 28, 0.44);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 18px;
+    box-shadow: none;
+}
+
+/* Crisp high-contrast MacBook typography over frosted glass */
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-title,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-accordion-title,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-source-name,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-output-name {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-subtitle,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-custom-label,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-pct-label,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-time-label,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-helper-hint,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-source-state,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-accordion-chevron {
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0.92;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Inner frosted modular glass tiles (no muddy shadows) */
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-hero-card,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-section-card {
+    background-color: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: none;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-section-card.zcontroller-section-expanded {
+    background-color: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-accordion-header:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-accordion-body {
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-section-icon-box,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-accordion-summary,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-source-badge {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-art-btn {
+    background-color: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.zcontroller-theme-transparent .zcontroller-ctrl-btn,
+.zcontroller-theme-transparent .zcontroller-chip-btn,
+.zcontroller-theme-transparent .zcontroller-pill-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.zcontroller-theme-transparent .zcontroller-ctrl-btn:hover,
+.zcontroller-theme-transparent .zcontroller-chip-btn:hover,
+.zcontroller-theme-transparent .zcontroller-pill-btn:hover {
+    background-color: rgba(255, 255, 255, 0.26);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-segmented {
+    background-color: rgba(0, 0, 0, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-source-row,
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-track-row {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-track-row:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .zcontroller-track-title {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.zcontroller-popup-menu.zcontroller-theme-transparent .slider {
+    -barlevel-background-color: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   ZController Accent Palettes (7 Presets)
+   ========================================================================== */
+
+/* Ubuntu Orange */
+.zcontroller-accent-ubuntu .zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-accent-ubuntu .zcontroller-ctrl-primary,
+.zcontroller-accent-ubuntu .zcontroller-pill-btn.zcontroller-pill-active,
+.zcontroller-accent-ubuntu .zcontroller-chip-btn.zcontroller-chip-active,
+.zcontroller-accent-ubuntu .zcontroller-segment-btn.zcontroller-chip-active {
+    background-color: #e95420;
+    color: #ffffff;
+}
+.zcontroller-accent-ubuntu .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(233, 84, 32, 0.28); color: #ffb36b; }
+.zcontroller-theme-light.zcontroller-accent-ubuntu .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(233, 84, 32, 0.16); color: #c43c0e; }
+.zcontroller-accent-ubuntu .zcontroller-ctrl-primary:hover { background-color: #f06a3a; }
+.zcontroller-accent-ubuntu .zcontroller-panel-btn.zcontroller-has-audio { color: #ff9c70; }
+.zcontroller-theme-light.zcontroller-accent-ubuntu .zcontroller-panel-btn.zcontroller-has-audio { color: #d64514; }
+.zcontroller-accent-ubuntu .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(233, 84, 32, 0.34); color: #ffb36b; }
+.zcontroller-theme-light.zcontroller-accent-ubuntu .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(233, 84, 32, 0.22); color: #c43c0e; }
+.zcontroller-accent-ubuntu .zcontroller-source-row.zcontroller-source-selected,
+.zcontroller-accent-ubuntu .zcontroller-track-row.zcontroller-source-selected { background-color: rgba(233, 84, 32, 0.22); border: 1px solid rgba(233, 84, 32, 0.62); }
+.zcontroller-accent-ubuntu .slider { -barlevel-active-background-color: #e95420; }
+
+/* Ocean Cyan */
+.zcontroller-accent-cyan .zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-accent-cyan .zcontroller-ctrl-primary,
+.zcontroller-accent-cyan .zcontroller-pill-btn.zcontroller-pill-active,
+.zcontroller-accent-cyan .zcontroller-chip-btn.zcontroller-chip-active,
+.zcontroller-accent-cyan .zcontroller-segment-btn.zcontroller-chip-active {
+    background-color: #06b6d4;
+    color: #ffffff;
+}
+.zcontroller-accent-cyan .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(6, 182, 212, 0.28); color: #67e8f9; }
+.zcontroller-theme-light.zcontroller-accent-cyan .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(6, 182, 212, 0.16); color: #0e7490; }
+.zcontroller-accent-cyan .zcontroller-ctrl-primary:hover { background-color: #22d3ee; }
+.zcontroller-accent-cyan .zcontroller-panel-btn.zcontroller-has-audio { color: #67e8f9; }
+.zcontroller-theme-light.zcontroller-accent-cyan .zcontroller-panel-btn.zcontroller-has-audio { color: #0284c7; }
+.zcontroller-accent-cyan .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(6, 182, 212, 0.34); color: #67e8f9; }
+.zcontroller-theme-light.zcontroller-accent-cyan .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(6, 182, 212, 0.22); color: #0e7490; }
+.zcontroller-accent-cyan .zcontroller-source-row.zcontroller-source-selected,
+.zcontroller-accent-cyan .zcontroller-track-row.zcontroller-source-selected { background-color: rgba(6, 182, 212, 0.22); border: 1px solid rgba(6, 182, 212, 0.62); }
+.zcontroller-accent-cyan .slider { -barlevel-active-background-color: #06b6d4; }
+
+/* Neon Violet */
+.zcontroller-accent-purple .zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-accent-purple .zcontroller-ctrl-primary,
+.zcontroller-accent-purple .zcontroller-pill-btn.zcontroller-pill-active,
+.zcontroller-accent-purple .zcontroller-chip-btn.zcontroller-chip-active,
+.zcontroller-accent-purple .zcontroller-segment-btn.zcontroller-chip-active {
+    background-color: #9333ea;
+    color: #ffffff;
+}
+.zcontroller-accent-purple .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(168, 85, 247, 0.28); color: #d8b4fe; }
+.zcontroller-theme-light.zcontroller-accent-purple .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(168, 85, 247, 0.16); color: #7e22ce; }
+.zcontroller-accent-purple .zcontroller-ctrl-primary:hover { background-color: #a855f7; }
+.zcontroller-accent-purple .zcontroller-panel-btn.zcontroller-has-audio { color: #d8b4fe; }
+.zcontroller-theme-light.zcontroller-accent-purple .zcontroller-panel-btn.zcontroller-has-audio { color: #7e22ce; }
+.zcontroller-accent-purple .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(168, 85, 247, 0.34); color: #d8b4fe; }
+.zcontroller-theme-light.zcontroller-accent-purple .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(168, 85, 247, 0.22); color: #7e22ce; }
+.zcontroller-accent-purple .zcontroller-source-row.zcontroller-source-selected,
+.zcontroller-accent-purple .zcontroller-track-row.zcontroller-source-selected { background-color: rgba(168, 85, 247, 0.22); border: 1px solid rgba(168, 85, 247, 0.62); }
+.zcontroller-accent-purple .slider { -barlevel-active-background-color: #a855f7; }
+
+/* Emerald Mint */
+.zcontroller-accent-emerald .zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-accent-emerald .zcontroller-ctrl-primary,
+.zcontroller-accent-emerald .zcontroller-pill-btn.zcontroller-pill-active,
+.zcontroller-accent-emerald .zcontroller-chip-btn.zcontroller-chip-active,
+.zcontroller-accent-emerald .zcontroller-segment-btn.zcontroller-chip-active {
+    background-color: #10b981;
+    color: #ffffff;
+}
+.zcontroller-accent-emerald .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(16, 185, 129, 0.28); color: #6ee7b7; }
+.zcontroller-theme-light.zcontroller-accent-emerald .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(16, 185, 129, 0.16); color: #047857; }
+.zcontroller-accent-emerald .zcontroller-ctrl-primary:hover { background-color: #34d399; }
+.zcontroller-accent-emerald .zcontroller-panel-btn.zcontroller-has-audio { color: #6ee7b7; }
+.zcontroller-theme-light.zcontroller-accent-emerald .zcontroller-panel-btn.zcontroller-has-audio { color: #047857; }
+.zcontroller-accent-emerald .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(16, 185, 129, 0.34); color: #6ee7b7; }
+.zcontroller-theme-light.zcontroller-accent-emerald .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(16, 185, 129, 0.22); color: #047857; }
+.zcontroller-accent-emerald .zcontroller-source-row.zcontroller-source-selected,
+.zcontroller-accent-emerald .zcontroller-track-row.zcontroller-source-selected { background-color: rgba(16, 185, 129, 0.22); border: 1px solid rgba(16, 185, 129, 0.62); }
+.zcontroller-accent-emerald .slider { -barlevel-active-background-color: #10b981; }
+
+/* Crimson Rose */
+.zcontroller-accent-rose .zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-accent-rose .zcontroller-ctrl-primary,
+.zcontroller-accent-rose .zcontroller-pill-btn.zcontroller-pill-active,
+.zcontroller-accent-rose .zcontroller-chip-btn.zcontroller-chip-active,
+.zcontroller-accent-rose .zcontroller-segment-btn.zcontroller-chip-active {
+    background-color: #e11d48;
+    color: #ffffff;
+}
+.zcontroller-accent-rose .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(244, 63, 94, 0.28); color: #fda4af; }
+.zcontroller-theme-light.zcontroller-accent-rose .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(244, 63, 94, 0.16); color: #be123c; }
+.zcontroller-accent-rose .zcontroller-ctrl-primary:hover { background-color: #f43f5e; }
+.zcontroller-accent-rose .zcontroller-panel-btn.zcontroller-has-audio { color: #fda4af; }
+.zcontroller-theme-light.zcontroller-accent-rose .zcontroller-panel-btn.zcontroller-has-audio { color: #be123c; }
+.zcontroller-accent-rose .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(244, 63, 94, 0.34); color: #fda4af; }
+.zcontroller-theme-light.zcontroller-accent-rose .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(244, 63, 94, 0.22); color: #be123c; }
+.zcontroller-accent-rose .zcontroller-source-row.zcontroller-source-selected,
+.zcontroller-accent-rose .zcontroller-track-row.zcontroller-source-selected { background-color: rgba(244, 63, 94, 0.22); border: 1px solid rgba(244, 63, 94, 0.62); }
+.zcontroller-accent-rose .slider { -barlevel-active-background-color: #f43f5e; }
+
+/* Solar Gold */
+.zcontroller-accent-gold .zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-accent-gold .zcontroller-ctrl-primary,
+.zcontroller-accent-gold .zcontroller-pill-btn.zcontroller-pill-active,
+.zcontroller-accent-gold .zcontroller-chip-btn.zcontroller-chip-active,
+.zcontroller-accent-gold .zcontroller-segment-btn.zcontroller-chip-active {
+    background-color: #d97706;
+    color: #ffffff;
+}
+.zcontroller-accent-gold .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(245, 158, 11, 0.28); color: #fcd34d; }
+.zcontroller-theme-light.zcontroller-accent-gold .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(245, 158, 11, 0.16); color: #b45309; }
+.zcontroller-accent-gold .zcontroller-ctrl-primary:hover { background-color: #f59e0b; }
+.zcontroller-accent-gold .zcontroller-panel-btn.zcontroller-has-audio { color: #fcd34d; }
+.zcontroller-theme-light.zcontroller-accent-gold .zcontroller-panel-btn.zcontroller-has-audio { color: #b45309; }
+.zcontroller-accent-gold .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(245, 158, 11, 0.34); color: #fcd34d; }
+.zcontroller-theme-light.zcontroller-accent-gold .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(245, 158, 11, 0.22); color: #b45309; }
+.zcontroller-accent-gold .zcontroller-source-row.zcontroller-source-selected,
+.zcontroller-accent-gold .zcontroller-track-row.zcontroller-source-selected { background-color: rgba(245, 158, 11, 0.22); border: 1px solid rgba(245, 158, 11, 0.62); }
+.zcontroller-accent-gold .slider { -barlevel-active-background-color: #f59e0b; }
+
+/* Cool Slate / Frost */
+.zcontroller-accent-frost .zcontroller-panel-btn.zcontroller-btn-active,
+.zcontroller-accent-frost .zcontroller-ctrl-primary,
+.zcontroller-accent-frost .zcontroller-pill-btn.zcontroller-pill-active,
+.zcontroller-accent-frost .zcontroller-chip-btn.zcontroller-chip-active,
+.zcontroller-accent-frost .zcontroller-segment-btn.zcontroller-chip-active {
+    background-color: #64748b;
+    color: #ffffff;
+}
+.zcontroller-accent-frost .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(148, 163, 184, 0.28); color: #f1f5f9; }
+.zcontroller-theme-light.zcontroller-accent-frost .zcontroller-section-expanded .zcontroller-section-icon-box { background-color: rgba(100, 116, 139, 0.18); color: #1e293b; }
+.zcontroller-accent-frost .zcontroller-ctrl-primary:hover { background-color: #94a3b8; }
+.zcontroller-accent-frost .zcontroller-panel-btn.zcontroller-has-audio { color: #e2e8f0; }
+.zcontroller-theme-light.zcontroller-accent-frost .zcontroller-panel-btn.zcontroller-has-audio { color: #334155; }
+.zcontroller-accent-frost .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(148, 163, 184, 0.34); color: #f1f5f9; }
+.zcontroller-theme-light.zcontroller-accent-frost .zcontroller-panel-btn.zcontroller-wave-btn-active { background-color: rgba(100, 116, 139, 0.22); color: #1e293b; }
+.zcontroller-accent-frost .zcontroller-source-row.zcontroller-source-selected,
+.zcontroller-accent-frost .zcontroller-track-row.zcontroller-source-selected { background-color: rgba(148, 163, 184, 0.24); border: 1px solid rgba(148, 163, 184, 0.62); }
+.zcontroller-accent-frost .slider { -barlevel-active-background-color: #94a3b8; }
+
+/* ============================================================================
+ * DEDICATED SHORTCUTS POPUP DIALOG (ModalDialog)
+ * ============================================================================ */
+
+.zcontroller-shortcuts-modal {
+    border-radius: 18px;
+    padding: 0;
+    min-width: 520px;
+    max-width: 560px;
+    background-color: rgba(24, 24, 28, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #f4f4f7;
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.55);
+}
+
+.zcontroller-shortcuts-modal .modal-dialog-content-box {
+    padding: 18px 20px 16px 20px;
+    spacing: 0;
+}
+
+.zcontroller-shortcuts-modal.zcontroller-shortcuts-theme-glass {
+    background-color: rgba(26, 28, 36, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.zcontroller-shortcuts-modal.zcontroller-shortcuts-theme-transparent {
+    background-color: rgba(18, 20, 26, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.zcontroller-shortcuts-modal.zcontroller-shortcuts-theme-oled {
+    background-color: rgba(5, 5, 7, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.zcontroller-shortcuts-modal.zcontroller-shortcuts-theme-light {
+    background-color: rgba(248, 249, 252, 0.97);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #18181c;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.24);
+}
+
+.zcontroller-shortcuts-root {
+    spacing: 12px;
+}
+
+.zcontroller-shortcuts-header {
+    spacing: 10px;
+    padding-bottom: 4px;
+}
+
+.zcontroller-shortcuts-header-icon {
+    padding: 8px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcuts-header-icon {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.zcontroller-shortcuts-title-box {
+    spacing: 2px;
+}
+
+.zcontroller-shortcuts-title {
+    font-size: 1.08em;
+    font-weight: 700;
+}
+
+.zcontroller-shortcuts-subtitle {
+    font-size: 0.78em;
+    opacity: 0.68;
+}
+
+.zcontroller-shortcuts-count-badge {
+    font-size: 0.76em;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcuts-count-badge {
+    background-color: rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.zcontroller-shortcuts-close-btn {
+    padding: 6px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.08);
+    transition-duration: 120ms;
+}
+
+.zcontroller-shortcuts-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcuts-close-btn {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcuts-close-btn:hover {
+    background-color: rgba(0, 0, 0, 0.13);
+}
+
+.zcontroller-shortcuts-banner {
+    spacing: 8px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.zcontroller-shortcuts-banner-label {
+    font-size: 0.82em;
+    font-weight: 600;
+}
+
+.zcontroller-shortcuts-banner-cancel {
+    font-size: 0.76em;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.zcontroller-shortcuts-banner-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcuts-banner-cancel {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.zcontroller-shortcuts-scroll {
+    max-height: 372px;
+}
+
+.zcontroller-shortcuts-list {
+    spacing: 6px;
+    padding-right: 4px;
+}
+
+.zcontroller-shortcuts-group-label {
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.56;
+    padding: 6px 4px 2px 4px;
+}
+
+.zcontroller-shortcut-row {
+    spacing: 10px;
+    padding: 8px 10px;
+    border-radius: 11px;
+    background-color: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition-duration: 120ms;
+}
+
+.zcontroller-shortcut-row:hover {
+    background-color: rgba(255, 255, 255, 0.085);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcut-row {
+    background-color: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcut-row:hover {
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+.zcontroller-shortcut-icon {
+    opacity: 0.88;
+}
+
+.zcontroller-shortcut-text {
+    spacing: 1px;
+}
+
+.zcontroller-shortcut-name {
+    font-size: 0.88em;
+    font-weight: 600;
+}
+
+.zcontroller-shortcut-desc {
+    font-size: 0.74em;
+    opacity: 0.62;
+}
+
+.zcontroller-shortcut-key-btn {
+    padding: 4px 10px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    min-width: 112px;
+    transition-duration: 120ms;
+}
+
+.zcontroller-shortcut-key-btn:hover {
+    background-color: rgba(255, 255, 255, 0.17);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcut-key-btn {
+    background-color: rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcut-key-btn:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.zcontroller-shortcut-key-label {
+    font-size: 0.78em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.zcontroller-shortcut-reset-btn {
+    padding: 5px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.07);
+    opacity: 0.82;
+}
+
+.zcontroller-shortcut-reset-btn:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    opacity: 1;
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcut-reset-btn {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.zcontroller-shortcut-toggle-btn {
+    padding: 4px 10px;
+    min-width: 44px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition-duration: 120ms;
+}
+
+.zcontroller-shortcut-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcut-toggle-btn {
+    background-color: rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.zcontroller-shortcut-toggle-label {
+    font-size: 0.72em;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-align: center;
+}
+
+.zcontroller-shortcuts-footer {
+    spacing: 8px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcuts-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.zcontroller-shortcuts-hint {
+    font-size: 0.76em;
+    opacity: 0.62;
+}
+
+.zcontroller-shortcuts-secondary-btn {
+    font-size: 0.82em;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 9px;
+    background-color: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.zcontroller-shortcuts-secondary-btn:hover {
+    background-color: rgba(255, 255, 255, 0.17);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-shortcuts-secondary-btn {
+    background-color: rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.zcontroller-shortcuts-primary-btn {
+    font-size: 0.84em;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 9px;
+}
+
+.zcontroller-shortcuts-primary-btn:hover {
+    opacity: 0.92;
+}
+
+/* ============================================================================
+ * ABOUT ZCTRL POPUP DIALOG (ModalDialog)
+ * ============================================================================ */
+
+.zcontroller-about-modal {
+    border-radius: 18px;
+    padding: 0;
+    min-width: 400px;
+    max-width: 430px;
+    background-color: rgba(24, 24, 28, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #f4f4f7;
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.55);
+}
+
+.zcontroller-about-modal .modal-dialog-content-box {
+    padding: 16px 20px 16px 20px;
+    spacing: 0;
+}
+
+.zcontroller-about-modal.zcontroller-shortcuts-theme-glass {
+    background-color: rgba(26, 28, 36, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.zcontroller-about-modal.zcontroller-shortcuts-theme-transparent {
+    background-color: rgba(18, 20, 26, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.zcontroller-about-modal.zcontroller-shortcuts-theme-oled {
+    background-color: rgba(5, 5, 7, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.zcontroller-about-modal.zcontroller-shortcuts-theme-light {
+    background-color: rgba(248, 249, 252, 0.97);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #18181c;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.24);
+}
+
+.zcontroller-about-root {
+    spacing: 12px;
+}
+
+.zcontroller-about-top-row {
+    spacing: 8px;
+}
+
+.zcontroller-about-eyebrow {
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.58;
+}
+
+.zcontroller-about-hero {
+    spacing: 6px;
+    padding: 4px 0 2px 0;
+}
+
+.zcontroller-about-emblem {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    padding: 12px;
+}
+
+.zcontroller-about-title-row {
+    spacing: 8px;
+    padding-top: 4px;
+}
+
+.zcontroller-about-name {
+    font-size: 1.42em;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+
+.zcontroller-about-version-pill {
+    font-size: 0.74em;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+
+.zcontroller-about-author {
+    font-size: 0.84em;
+    font-weight: 600;
+    opacity: 0.78;
+}
+
+.zcontroller-about-desc {
+    font-size: 0.82em;
+    line-height: 1.45em;
+    opacity: 0.8;
+    text-align: center;
+    padding: 0 6px;
+}
+
+.zcontroller-about-chips-box {
+    spacing: 6px;
+    padding: 2px 0;
+}
+
+.zcontroller-about-chips-row {
+    spacing: 6px;
+}
+
+.zcontroller-about-chip {
+    font-size: 0.71em;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.075);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-about-chip {
+    background-color: rgba(0, 0, 0, 0.055);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+.zcontroller-about-meta-card {
+    spacing: 6px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.zcontroller-shortcuts-theme-light .zcontroller-about-meta-card {
+    background-color: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.zcontroller-about-meta-row {
+    spacing: 8px;
+}
+
+.zcontroller-about-meta-key {
+    font-size: 0.8em;
+    opacity: 0.64;
+}
+
+.zcontroller-about-meta-val {
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+.zcontroller-about-link-content {
+    spacing: 6px;
+}
+
+

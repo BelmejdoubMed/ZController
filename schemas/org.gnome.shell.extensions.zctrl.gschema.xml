@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.zctrl" path="/org/gnome/shell/extensions/zctrl/">
+    <key name="controller-position" type="s">
+      <default>'top'</default>
+      <summary>Where ZCtrl is shown (top, bottom, both)</summary>
+    </key>
+    <key name="bar-timeline-visible" type="b">
+      <default>true</default>
+      <summary>Show interactive music timeline bar beneath buttons and sound waves</summary>
+    </key>
+    <key name="waves-visible" type="b">
+      <default>true</default>
+      <summary>Show live sound waves by default</summary>
+    </key>
+    <key name="wave-style" type="s">
+      <default>'mirrored'</default>
+      <summary>Sound wave visual style (mirrored, wave, bars)</summary>
+    </key>
+    <key name="wave-width" type="i">
+      <default>96</default>
+      <summary>Sound wave visualizer width in pixels</summary>
+    </key>
+    <key name="wave-sensitivity" type="d">
+      <default>1.2</default>
+      <summary>Sound wave reaction sensitivity multiplier</summary>
+    </key>
+    <key name="wave-color" type="s">
+      <default>'ubuntu'</default>
+      <summary>Sound wave color palette</summary>
+    </key>
+    <key name="accent-color" type="s">
+      <default>'ubuntu'</default>
+      <summary>ZCtrl accent color</summary>
+    </key>
+    <key name="controller-theme" type="s">
+      <default>'dark'</default>
+      <summary>ZCtrl visual theme (dark, glass, transparent, light, oled)</summary>
+    </key>
+    <key name="local-music-folder" type="s">
+      <default>''</default>
+      <summary>Saved local music folder path for the isolated audio player</summary>
+    </key>
+    <key name="local-music-shuffle" type="b">
+      <default>false</default>
+      <summary>Shuffle playback in local music player</summary>
+    </key>
+    <key name="local-music-repeat" type="s">
+      <default>'all'</default>
+      <summary>Repeat mode in local music player (off, all, one)</summary>
+    </key>
+    <key name="shortcuts-config" type="s">
+      <default>'{}'</default>
+      <summary>JSON map of per-action shortcut accelerators and enabled states</summary>
+    </key>
+    <key name="shortcut-play-pause" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Play / Pause (disabled by default)</summary>
+    </key>
+    <key name="shortcut-stop" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Stop Playback (disabled by default)</summary>
+    </key>
+    <key name="shortcut-next" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Next Track (disabled by default)</summary>
+    </key>
+    <key name="shortcut-previous" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Previous Track (disabled by default)</summary>
+    </key>
+    <key name="shortcut-seek-forward" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Seek Forward 10s (disabled by default)</summary>
+    </key>
+    <key name="shortcut-seek-backward" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Seek Backward 10s (disabled by default)</summary>
+    </key>
+    <key name="shortcut-volume-up" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Volume Up (disabled by default)</summary>
+    </key>
+    <key name="shortcut-volume-down" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Volume Down (disabled by default)</summary>
+    </key>
+    <key name="shortcut-mute" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Mute / Unmute (disabled by default)</summary>
+    </key>
+    <key name="shortcut-toggle-waves" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Toggle Sound Waves (disabled by default)</summary>
+    </key>
+    <key name="shortcut-toggle-menu" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Open / Close ZCtrl (disabled by default)</summary>
+    </key>
+    <key name="shortcut-local-play-pause" type="as">
+      <default>[]</default>
+      <summary>Global shortcut for Local Music Play / Pause (disabled by default)</summary>
+    </key>
+  </schema>
+</schemalist>

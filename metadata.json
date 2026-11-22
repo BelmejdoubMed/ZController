@@ -1,0 +1,11 @@
+{
+    "uuid": "zctrl@assaciro.github.io",
+    "name": "ZCtrl",
+    "version-name": "1.0.0",
+    "description": "ZCtrl by Assaciro — A sleek universal media controller, isolated local music player, and real-time PipeWire sound wave visualizer for GNOME. Control any browser, media player, or app audio stream from your top bar or bottom dock with customizable global keyboard shortcuts and 5 frosted-glass themes.",
+    "settings-schema": "org.gnome.shell.extensions.zctrl",
+    "shell-version": [
+        "46"
+    ],
+    "url": "https://github.com/BelmejdoubMed/ZController"
+}

@@ -1,0 +1,752 @@
+#!/usr/bin/env -S gjs -m
+
+import Gio from 'gi://Gio';
+import GioUnix from 'gi://GioUnix';
+import GLib from 'gi://GLib';
+import Gst from 'gi://Gst';
+import System from 'system';
+
+GLib.set_prgname('zctrl-player');
+GLib.set_application_name('ZCtrl Music');
+
+Gst.init(null);
+
+const AUDIO_EXTENSIONS = new Set([
+    '.mp3', '.flac', '.wav', '.ogg', '.oga', '.opus',
+    '.m4a', '.aac', '.wma', '.aiff', '.aif', '.weba',
+]);
+const MAX_SCAN_DEPTH = 4;
+const MAX_TRACKS = 2000;
+const GST_PLAY_FLAG_AUDIO = 0x00000002;
+const POSITION_EMIT_MS = 500;
+const PREVIOUS_RESTART_US = 3_000_000;
+
+const stdout = new Gio.DataOutputStream({
+    base_stream: new GioUnix.OutputStream({fd: 1, close_fd: false}),
+});
+const stdin = new Gio.DataInputStream({
+    base_stream: new GioUnix.InputStream({fd: 0, close_fd: false}),
+});
+
+function emit(payload) {
+    try {
+        stdout.put_string(`${JSON.stringify(payload)}\n`, null);
+        stdout.flush(null);
+    } catch {
+        // Parent closed pipe; main loop will exit on stdin EOF
+    }
+}
+
+function cleanTrackTitle(filename) {
+    const dot = filename.lastIndexOf('.');
+    const base = dot > 0 ? filename.slice(0, dot) : filename;
+    return base
+        .replace(/^\s*\d{1,3}[\s._-]+/, '')
+        .replace(/[_]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim() || base;
+}
+
+function isAudioFile(name) {
+    const dot = name.lastIndexOf('.');
+    if (dot < 0)
+        return false;
+    return AUDIO_EXTENSIONS.has(name.slice(dot).toLowerCase());
+}
+
+function scanFolderRecursive(folderPath) {
+    const tracks = [];
+
+    function walk(dirPath, depth) {
+        if (depth > MAX_SCAN_DEPTH || tracks.length >= MAX_TRACKS)
+            return;
+
+        let enumerator;
+        try {
+            const dir = Gio.File.new_for_path(dirPath);
+            enumerator = dir.enumerate_children(
+                'standard::name,standard::type',
+                Gio.FileQueryInfoFlags.NONE,
+                null
+            );
+        } catch {
+            return;
+        }
+
+        const subdirs = [];
+        const files = [];
+
+        try {
+            let info;
+            while ((info = enumerator.next_file(null)) !== null) {
+                const name = info.get_name();
+                if (!name || name.startsWith('.'))
+                    continue;
+                const ftype = info.get_file_type();
+                const fullPath = GLib.build_filenamev([dirPath, name]);
+                if (ftype === Gio.FileType.DIRECTORY) {
+                    subdirs.push(fullPath);
+                } else if (ftype === Gio.FileType.REGULAR && isAudioFile(name)) {
+                    files.push({name, path: fullPath});
+                }
+            }
+        } catch {
+            // Skip unreadable directory entries
+        } finally {
+            try {
+                enumerator.close(null);
+            } catch {
+                // Ignore
+            }
+        }
+
+        files.sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true, sensitivity: 'base'}));
+        subdirs.sort((a, b) => a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'}));
+
+        for (const f of files) {
+            if (tracks.length >= MAX_TRACKS)
+                break;
+            const file = Gio.File.new_for_path(f.path);
+            tracks.push({
+                uri: file.get_uri(),
+                path: f.path,
+                filename: f.name,
+                title: cleanTrackTitle(f.name),
+                artist: '',
+                album: '',
+            });
+        }
+
+        for (const sub of subdirs) {
+            if (tracks.length >= MAX_TRACKS)
+                break;
+            walk(sub, depth + 1);
+        }
+    }
+
+    walk(folderPath, 0);
+    return tracks;
+}
+
+class IsolatedMusicPlayer {
+    constructor(loop) {
+        this._loop = loop;
+        this._tracks = [];
+        this._folderPath = '';
+        this._currentIndex = -1;
+        this._status = 'Stopped'; // 'Playing' | 'Paused' | 'Stopped'
+        this._volume = 0.85;
+        this._muted = false;
+        this._shuffle = false;
+        this._repeat = 'all'; // 'off' | 'all' | 'one'
+        this._shuffleHistory = [];
+
+        this._title = '';
+        this._artist = '';
+        this._album = '';
+        this._artUrl = '';
+        this._lengthUs = 0;
+        this._positionUs = 0;
+        this._posTimerId = 0;
+        this._artCounter = 0;
+        this._artTempPath = null;
+
+        this._playbin = Gst.ElementFactory.make('playbin', 'zcontroller-playbin');
+        if (!this._playbin)
+            throw new Error('GStreamer playbin element is unavailable');
+
+        // Audio-only playback (prevents stray video windows for M4A/MP4 files)
+        try {
+            this._playbin.set_property('flags', GST_PLAY_FLAG_AUDIO);
+        } catch {
+            // Optional property safeguard
+        }
+
+        // Prefer pulsesink (pipewire-pulse) first: it implements GstStreamVolume (so
+        // playbin's volume/mute stay directly synced with PipeWire) AND exposes clean
+        // application.id / client-name metadata so PipeWire & WirePlumber never
+        // misidentify the stream as a generic "gjs-console" node.
+        const audioSink =
+            Gst.ElementFactory.make('pulsesink', 'zcontroller-sink') ??
+            Gst.ElementFactory.make('pipewiresink', 'zcontroller-sink') ??
+            Gst.ElementFactory.make('autoaudiosink', 'zcontroller-sink');
+        this._audioSink = audioSink || null;
+        if (audioSink) {
+            try {
+                audioSink.set_property('client-name', 'ZCtrl Music');
+            } catch {
+                // Non-fatal metadata hint (sink may not expose client-name)
+            }
+            try {
+                const props = Gst.Structure.new_from_string(
+                    'props,application.name="ZCtrl Music",application.id="zctrl.local.player",media.role="music",node.name="zctrl-local-player",node.description="ZCtrl Music"'
+                );
+                if (props)
+                    audioSink.set_property('stream-properties', props);
+            } catch {
+                // Non-fatal metadata hint (sink may not expose stream-properties)
+            }
+            this._playbin.set_property('audio-sink', audioSink);
+        }
+
+        this._applyAudioVolumeMute();
+
+        this._bus = this._playbin.get_bus();
+        this._bus.add_signal_watch();
+        this._bus.connect('message::eos', () => this._onEndOfStream());
+        this._bus.connect('message::error', (_bus, msg) => this._onError(msg));
+        this._bus.connect('message::tag', (_bus, msg) => this._onTag(msg));
+        this._bus.connect('message::duration-changed', () => this._refreshDuration());
+        this._bus.connect('message::state-changed', (_bus, msg) => {
+            if (msg.src === this._playbin) {
+                try {
+                    const [, newState] = msg.parse_state_changed();
+                    if (newState === Gst.State.PAUSED || newState === Gst.State.PLAYING)
+                        this._applyAudioVolumeMute();
+                } catch {
+                    // Ignore
+                }
+                this._refreshDuration();
+            }
+        });
+    }
+
+    _applyAudioVolumeMute() {
+        try {
+            this._playbin.set_property('volume', this._volume);
+            this._playbin.set_property('mute', this._muted);
+        } catch {
+            // Ignore
+        }
+        try {
+            if (this._audioSink)
+                this._audioSink.set_property('mute', this._muted);
+        } catch {
+            // Ignore (fallback sinks without GstStreamVolume)
+        }
+    }
+
+    handleCommand(cmd) {
+        if (!cmd || typeof cmd.op !== 'string')
+            return;
+
+        switch (cmd.op) {
+        case 'load-folder':
+            this._loadFolder(cmd.path || '', Boolean(cmd.autoplay));
+            break;
+        case 'load-files':
+            this._loadFiles(Array.isArray(cmd.paths) ? cmd.paths : [], Boolean(cmd.autoplay));
+            break;
+        case 'play-index':
+            this._playIndex(Number(cmd.index));
+            break;
+        case 'play':
+            this._play();
+            break;
+        case 'pause':
+            this._pause();
+            break;
+        case 'play-pause':
+            this._playPause();
+            break;
+        case 'stop':
+            this._stop();
+            break;
+        case 'next':
+            this._next(true);
+            break;
+        case 'previous':
+            this._previous();
+            break;
+        case 'seek':
+            this._seek(Number(cmd.positionUs) || 0);
+            break;
+        case 'set-volume':
+            this._setVolume(Number(cmd.volume));
+            break;
+        case 'set-muted':
+            this._setMuted(Boolean(cmd.muted));
+            break;
+        case 'set-shuffle':
+            this._shuffle = Boolean(cmd.shuffle);
+            this._emitState();
+            break;
+        case 'set-repeat':
+            if (cmd.repeat === 'off' || cmd.repeat === 'all' || cmd.repeat === 'one')
+                this._repeat = cmd.repeat;
+            this._emitState();
+            break;
+        case 'query-position':
+            this._emitPosition(true);
+            break;
+        case 'quit':
+            this.destroy();
+            this._loop.quit();
+            break;
+        default:
+            break;
+        }
+    }
+
+    _loadFolder(folderPath, autoplay) {
+        this._folderPath = folderPath;
+        if (!folderPath || !GLib.file_test(folderPath, GLib.FileTest.IS_DIR)) {
+            this._stop(false);
+            this._tracks = [];
+            this._currentIndex = -1;
+            this._emitPlaylist();
+            this._emitState();
+            return;
+        }
+
+        const prevUri = this._tracks[this._currentIndex]?.uri ?? null;
+        this._tracks = scanFolderRecursive(folderPath);
+        this._shuffleHistory = [];
+
+        if (prevUri) {
+            const foundIdx = this._tracks.findIndex(t => t.uri === prevUri);
+            this._currentIndex = foundIdx;
+            if (foundIdx < 0)
+                this._stop(false);
+        } else {
+            this._currentIndex = this._tracks.length > 0 ? 0 : -1;
+        }
+
+        this._emitPlaylist();
+        if (autoplay && this._tracks.length > 0)
+            this._playIndex(Math.max(0, this._currentIndex));
+        else
+            this._emitState();
+    }
+
+    _loadFiles(paths, autoplay) {
+        const tracks = [];
+        for (const p of paths) {
+            if (!p || !GLib.file_test(p, GLib.FileTest.IS_REGULAR))
+                continue;
+            const file = Gio.File.new_for_path(p);
+            const name = file.get_basename() || p;
+            if (!isAudioFile(name))
+                continue;
+            tracks.push({
+                uri: file.get_uri(),
+                path: p,
+                filename: name,
+                title: cleanTrackTitle(name),
+                artist: '',
+                album: '',
+            });
+        }
+
+        if (tracks.length === 0)
+            return;
+
+        this._folderPath = GLib.path_get_dirname(tracks[0].path);
+        this._tracks = tracks;
+        this._shuffleHistory = [];
+        this._currentIndex = 0;
+        this._emitPlaylist();
+
+        if (autoplay)
+            this._playIndex(0);
+        else
+            this._emitState();
+    }
+
+    _playIndex(index) {
+        if (this._tracks.length === 0)
+            return;
+        const clamped = Math.max(0, Math.min(this._tracks.length - 1, Math.floor(index)));
+        if (this._currentIndex >= 0 && this._currentIndex !== clamped) {
+            this._shuffleHistory.push(this._currentIndex);
+            if (this._shuffleHistory.length > 64)
+                this._shuffleHistory.shift();
+        }
+
+        this._currentIndex = clamped;
+        const track = this._tracks[clamped];
+
+        this._title = track.title;
+        this._artist = track.artist || '';
+        this._album = track.album || '';
+        this._clearTempArt();
+        this._artUrl = '';
+        this._lengthUs = 0;
+        this._positionUs = 0;
+
+        this._playbin.set_state(Gst.State.NULL);
+        this._playbin.set_property('uri', track.uri);
+        this._applyAudioVolumeMute();
+        this._playbin.set_state(Gst.State.PLAYING);
+
+        this._status = 'Playing';
+        this._startPosTimer();
+        this._emitState();
+    }
+
+    _play() {
+        if (this._tracks.length === 0)
+            return;
+        if (this._status === 'Paused' && this._currentIndex >= 0) {
+            this._applyAudioVolumeMute();
+            this._playbin.set_state(Gst.State.PLAYING);
+            this._status = 'Playing';
+            this._startPosTimer();
+            this._emitState();
+            return;
+        }
+        this._playIndex(this._currentIndex >= 0 ? this._currentIndex : 0);
+    }
+
+    _pause() {
+        if (this._status !== 'Playing')
+            return;
+        this._playbin.set_state(Gst.State.PAUSED);
+        this._status = 'Paused';
+        this._stopPosTimer();
+        this._emitPosition(true);
+        this._emitState();
+    }
+
+    _playPause() {
+        if (this._status === 'Playing')
+            this._pause();
+        else
+            this._play();
+    }
+
+    _stop(shouldEmit = true) {
+        this._playbin.set_state(Gst.State.NULL);
+        this._status = 'Stopped';
+        this._positionUs = 0;
+        this._stopPosTimer();
+        if (shouldEmit)
+            this._emitState();
+    }
+
+    _next(userTriggered) {
+        if (this._tracks.length === 0)
+            return;
+
+        if (!userTriggered && this._repeat === 'one' && this._currentIndex >= 0) {
+            this._playIndex(this._currentIndex);
+            return;
+        }
+
+        if (this._shuffle && this._tracks.length > 1) {
+            let nextIdx = this._currentIndex;
+            for (let tries = 0; tries < 8 && nextIdx === this._currentIndex; tries++)
+                nextIdx = Math.floor(Math.random() * this._tracks.length);
+            this._playIndex(nextIdx);
+            return;
+        }
+
+        const nextIdx = this._currentIndex + 1;
+        if (nextIdx < this._tracks.length) {
+            this._playIndex(nextIdx);
+        } else if (this._repeat === 'all' || userTriggered) {
+            this._playIndex(0);
+        } else {
+            this._stop(true);
+        }
+    }
+
+    _previous() {
+        if (this._tracks.length === 0)
+            return;
+
+        this._queryCurrentPosition();
+        if (this._status === 'Playing' && this._positionUs > PREVIOUS_RESTART_US) {
+            this._seek(0);
+            return;
+        }
+
+        if (this._shuffle && this._shuffleHistory.length > 0) {
+            const prev = this._shuffleHistory.pop();
+            this._currentIndex = -1; // Avoid re-pushing into history
+            this._playIndex(prev);
+            return;
+        }
+
+        const prevIdx = this._currentIndex > 0
+            ? this._currentIndex - 1
+            : this._tracks.length - 1;
+        this._playIndex(prevIdx);
+    }
+
+    _seek(positionUs) {
+        if (this._currentIndex < 0 || this._status === 'Stopped')
+            return;
+        const clampedUs = Math.max(0, Math.min(this._lengthUs || positionUs, positionUs));
+        const ns = Math.round(clampedUs * 1000);
+        this._playbin.seek_simple(
+            Gst.Format.TIME,
+            Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
+            ns
+        );
+        this._positionUs = clampedUs;
+        this._emitPosition(false);
+    }
+
+    _setVolume(vol) {
+        if (Number.isNaN(vol))
+            return;
+        this._volume = Math.max(0, Math.min(1.5, vol));
+        if (this._volume > 0.001 && this._muted)
+            this._muted = false;
+        this._applyAudioVolumeMute();
+        this._emitState();
+    }
+
+    _setMuted(muted) {
+        this._muted = muted;
+        this._applyAudioVolumeMute();
+        this._emitState();
+    }
+
+    _onEndOfStream() {
+        this._next(false);
+    }
+
+    _onError(msg) {
+        try {
+            const [err] = msg.parse_error();
+            emit({type: 'error', message: err?.message || 'Playback error'});
+        } catch {
+            emit({type: 'error', message: 'Playback error'});
+        }
+        this._stop(true);
+    }
+
+    _onTag(msg) {
+        let changed = false;
+        try {
+            const tags = msg.parse_tag();
+            if (!tags)
+                return;
+
+            const [hasTitle, title] = tags.get_string('title');
+            if (hasTitle && title && title.trim() && title.trim() !== this._title) {
+                this._title = title.trim();
+                if (this._tracks[this._currentIndex])
+                    this._tracks[this._currentIndex].title = this._title;
+                changed = true;
+            }
+
+            const [hasArtist, artist] = tags.get_string('artist');
+            if (hasArtist && artist && artist.trim() && artist.trim() !== this._artist) {
+                this._artist = artist.trim();
+                if (this._tracks[this._currentIndex])
+                    this._tracks[this._currentIndex].artist = this._artist;
+                changed = true;
+            }
+
+            const [hasAlbum, album] = tags.get_string('album');
+            if (hasAlbum && album && album.trim() && album.trim() !== this._album) {
+                this._album = album.trim();
+                changed = true;
+            }
+
+            if (!this._artUrl) {
+                let sample = null;
+                const [hasImg, imgSample] = tags.get_sample('image');
+                if (hasImg && imgSample) {
+                    sample = imgSample;
+                } else {
+                    const [hasPrev, prevSample] = tags.get_sample('preview-image');
+                    if (hasPrev && prevSample)
+                        sample = prevSample;
+                }
+                if (sample) {
+                    const artUri = this._saveArtSample(sample);
+                    if (artUri) {
+                        this._artUrl = artUri;
+                        changed = true;
+                    }
+                }
+            }
+        } catch {
+            // Ignore malformed tags safely
+        }
+
+        if (changed)
+            this._emitState();
+    }
+
+    _saveArtSample(sample) {
+        try {
+            const buffer = sample.get_buffer();
+            if (!buffer)
+                return '';
+            const [ok, mapInfo] = buffer.map(Gst.MapFlags.READ);
+            if (!ok || !mapInfo?.data || mapInfo.data.length === 0)
+                return '';
+
+            const bytes = mapInfo.data.slice();
+            buffer.unmap(mapInfo);
+
+            this._clearTempArt();
+            this._artCounter++;
+            const runtimeDir = GLib.get_user_runtime_dir() || GLib.get_tmp_dir();
+            const artPath = GLib.build_filenamev([
+                runtimeDir,
+                `zcontroller-art-${GLib.get_monotonic_time()}-${this._artCounter}.img`,
+            ]);
+            GLib.file_set_contents(artPath, bytes);
+            this._artTempPath = artPath;
+            return Gio.File.new_for_path(artPath).get_uri();
+        } catch {
+            return '';
+        }
+    }
+
+    _clearTempArt() {
+        if (!this._artTempPath)
+            return;
+        try {
+            Gio.File.new_for_path(this._artTempPath).delete(null);
+        } catch {
+            // Already removed
+        }
+        this._artTempPath = null;
+    }
+
+    _refreshDuration() {
+        try {
+            const [ok, durNs] = this._playbin.query_duration(Gst.Format.TIME);
+            if (ok && durNs > 0) {
+                const durUs = Math.floor(durNs / 1000);
+                if (Math.abs(durUs - this._lengthUs) > 50_000) {
+                    this._lengthUs = durUs;
+                    this._emitState();
+                }
+            }
+        } catch {
+            // Ignore
+        }
+    }
+
+    _queryCurrentPosition() {
+        try {
+            const [ok, posNs] = this._playbin.query_position(Gst.Format.TIME);
+            if (ok && posNs >= 0)
+                this._positionUs = Math.floor(posNs / 1000);
+        } catch {
+            // Ignore
+        }
+    }
+
+    _startPosTimer() {
+        this._stopPosTimer();
+        this._posTimerId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, POSITION_EMIT_MS, () => {
+            if (this._status !== 'Playing') {
+                this._posTimerId = 0;
+                return GLib.SOURCE_REMOVE;
+            }
+            this._refreshDuration();
+            this._emitPosition(true);
+            return GLib.SOURCE_CONTINUE;
+        });
+    }
+
+    _stopPosTimer() {
+        if (this._posTimerId) {
+            GLib.source_remove(this._posTimerId);
+            this._posTimerId = 0;
+        }
+    }
+
+    _emitPlaylist() {
+        emit({
+            type: 'playlist',
+            folderPath: this._folderPath,
+            tracks: this._tracks.map((t, index) => ({
+                index,
+                title: t.title,
+                artist: t.artist,
+                filename: t.filename,
+            })),
+        });
+    }
+
+    _emitState() {
+        emit({
+            type: 'state',
+            status: this._status,
+            currentIndex: this._currentIndex,
+            trackCount: this._tracks.length,
+            folderPath: this._folderPath,
+            title: this._title || this._tracks[this._currentIndex]?.title || 'ZCtrl Music',
+            artist: this._artist,
+            album: this._album,
+            artUrl: this._artUrl,
+            lengthUs: this._lengthUs,
+            positionUs: this._positionUs,
+            volume: this._volume,
+            muted: this._muted,
+            shuffle: this._shuffle,
+            repeat: this._repeat,
+        });
+    }
+
+    _emitPosition(queryFirst) {
+        if (queryFirst)
+            this._queryCurrentPosition();
+        emit({
+            type: 'position',
+            positionUs: this._positionUs,
+            lengthUs: this._lengthUs,
+        });
+    }
+
+    destroy() {
+        this._stopPosTimer();
+        try {
+            this._playbin?.set_state(Gst.State.NULL);
+            this._bus?.remove_signal_watch();
+        } catch {
+            // Ignore
+        }
+        this._clearTempArt();
+    }
+}
+
+const loop = new GLib.MainLoop(null, false);
+let player;
+try {
+    player = new IsolatedMusicPlayer(loop);
+} catch (e) {
+    emit({type: 'error', message: e.message});
+    System.exit(1);
+}
+
+function readNextLine() {
+    stdin.read_line_async(GLib.PRIORITY_DEFAULT, null, (stream, res) => {
+        try {
+            const [line] = stream.read_line_finish_utf8(res);
+            if (line === null) {
+                // Parent closed stdin -> exit cleanly with zero orphans
+                player.destroy();
+                loop.quit();
+                return;
+            }
+            const trimmed = line.trim();
+            if (trimmed.length > 0) {
+                try {
+                    const cmd = JSON.parse(trimmed);
+                    player.handleCommand(cmd);
+                } catch {
+                    // Ignore malformed JSON line
+                }
+            }
+            readNextLine();
+        } catch {
+            player.destroy();
+            loop.quit();
+        }
+    });
+}
+
+emit({type: 'ready'});
+readNextLine();
+loop.run();

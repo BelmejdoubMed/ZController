@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- OLED Obsidian Base Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#151d27"/>
+      <stop offset="45%" stop-color="#0b0f15"/>
+      <stop offset="100%" stop-color="#05070a"/>
+    </linearGradient>
+
+    <!-- Ambient Emerald-Cyan Inner Aurora -->
+    <radialGradient id="auroraBottom" cx="54%" cy="84%" r="58%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.28"/>
+      <stop offset="48%" stop-color="#06b6d4" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#05070a" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="auroraTop" cx="24%" cy="14%" r="52%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Luminous Glass Rim Stroke -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.26"/>
+      <stop offset="42%" stop-color="#10b981" stop-opacity="0.34"/>
+      <stop offset="78%" stop-color="#06b6d4" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.10"/>
+    </linearGradient>
+
+    <!-- Platinum White Gradient for 'Z' -->
+    <linearGradient id="zGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cfdbe6"/>
+    </linearGradient>
+
+    <!-- Emerald Mint to Ocean Cyan Gradient for 'C' and Timeline -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="52%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+
+    <linearGradient id="timelineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="65%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+
+    <radialGradient id="cHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.22"/>
+      <stop offset="60%" stop-color="#06b6d4" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Soft Glow behind Accent Elements -->
+    <filter id="accentGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="dotGlow" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Outer Tile Shadow -->
+    <filter id="tileShadow" x="-12%" y="-10%" width="124%" height="128%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+
+    <clipPath id="tileClip">
+      <rect x="24" y="24" width="464" height="464" rx="108" ry="108"/>
+    </clipPath>
+  </defs>
+
+  <!-- Main Assaciro Suite Squircle Tile -->
+  <g filter="url(#tileShadow)">
+    <rect x="24" y="24" width="464" height="464" rx="108" ry="108" fill="url(#bgGrad)"/>
+  </g>
+
+  <g clip-path="url(#tileClip)">
+    <!-- Subtle inner aurora & top glass sheen -->
+    <rect x="24" y="24" width="464" height="464" fill="url(#auroraBottom)"/>
+    <rect x="24" y="24" width="464" height="464" fill="url(#auroraTop)"/>
+
+    <!-- Subtle top glass specular curve -->
+    <ellipse cx="256" cy="40" rx="220" ry="74" fill="#ffffff" opacity="0.035"/>
+
+    <!-- Inner subtle inset panel border -->
+    <rect x="38" y="38" width="436" height="436" rx="95" ry="95"
+          fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1.5"/>
+
+    <!-- Assaciro Suite Signature Micro-Mark (top-right geometric 'A' apex + dot) -->
+    <g transform="translate(394, 68)" opacity="0.92">
+      <path d="M 4 30 L 18 5 L 32 30"
+            fill="none" stroke="#dce7ef" stroke-width="4.5"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.72"/>
+      <circle cx="18" cy="26" r="3.6" fill="url(#accentGrad)"/>
+    </g>
+
+    <!-- Soft Ambient Radial Halo Behind 'C' -->
+    <circle cx="346" cy="240" r="118" fill="url(#cHalo)"/>
+
+    <!-- Custom Geometric 'Z' Monogram (Platinum White) -->
+    <path d="M 96 162 L 222 162 L 98 318 L 226 318"
+          fill="none"
+          stroke="url(#zGrad)"
+          stroke-width="34"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+
+    <!-- Custom Geometric 'C' Monogram (Emerald Mint -> Ocean Cyan) -->
+    <path d="M 404 193
+             A 78 78 0 1 0 404 287"
+          fill="none"
+          stroke="url(#accentGrad)"
+          stroke-width="34"
+          stroke-linecap="round"
+          filter="url(#accentGlow)"/>
+
+    <!-- Minimal 3-bar Sound Wave Accent nestled cleanly at the C opening -->
+    <g fill="url(#accentGrad)" opacity="0.94">
+      <rect x="378" y="228" width="9" height="24" rx="4.5"/>
+      <rect x="395" y="217" width="9" height="46" rx="4.5"/>
+      <rect x="412" y="232" width="9" height="16" rx="4.5"/>
+    </g>
+
+    <!-- Signature ZCtrl Interactive Bar Timeline along the bottom -->
+    <!-- Rail -->
+    <rect x="96" y="386" width="320" height="16" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+    <!-- Filled Progress -->
+    <rect x="96" y="386" width="212" height="16" rx="8" fill="url(#timelineGrad)"/>
+    <!-- Glowing Scrub Knob -->
+    <circle cx="308" cy="394" r="15" fill="#10b981" fill-opacity="0.38" filter="url(#dotGlow)"/>
+    <circle cx="308" cy="394" r="9.5" fill="#ffffff"/>
+  </g>
+
+  <!-- Crisp Glass Rim Border -->
+  <rect x="25" y="25" width="462" height="462" rx="107" ry="107"
+        fill="none" stroke="url(#rimGrad)" stroke-width="2.5"/>
+</svg>
